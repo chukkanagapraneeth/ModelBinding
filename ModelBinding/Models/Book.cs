@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModelBinding.CustomValidators;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModelBinding.Models
@@ -39,6 +40,12 @@ namespace ModelBinding.Models
         [Compare("password", ErrorMessage = "{0} Doesn't match with password")]
         [Required]
         public string? confirmpassword { get; set; }
+
+        //CUSTOM VALIDATION ATTRIBUTE
+        //[DobValidation(DateOfBirth = Convert.ToDateTime("2000-12-12"),ErrorMessage = "Date should be greater than 2000 bruv")]
+
+        [DobValidation(DOB: "2000-12-12", ErrorMessage = "Year should be less than {0} for {1} parameter")]
+        public DateTime? DateOfBirth { get; set; }
 
     }
 }
