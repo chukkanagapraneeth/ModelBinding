@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ModelBinding.CustomValidators;
 using System.ComponentModel.DataAnnotations;
 
@@ -45,6 +46,7 @@ namespace ModelBinding.Models
         //[DobValidation(DateOfBirth = Convert.ToDateTime("2000-12-12"),ErrorMessage = "Date should be greater than 2000 bruv")]
 
         [DobValidation(DOB: "2000-12-12", ErrorMessage = "Year should be less than {0} for {1} parameter")]
+        [BindNever]
         public DateTime? DateOfBirth { get; set; }
 
         //Multiple Properties using Reflection
@@ -53,7 +55,10 @@ namespace ModelBinding.Models
         [DateRangeValidator("FromDate", ErrorMessage = "From Date should be less than To Date.")]
         public string? ToDate { get; set; }
 
-        //IMPLEMENTING IVALIDATABLEOBJECT
+        // Collection Binding
+        public List<string?> Tags { get; set; } = new List<string?>();
+
+        //IMPLEMENTING IVALIDATABLEOBJECT - for quick validation and non re usable
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if(DateOfBirth.HasValue == false && Age.HasValue == false)

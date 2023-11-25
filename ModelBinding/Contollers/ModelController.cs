@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModelBinding.CusomModelBinders;
 using ModelBinding.Models;
 
 namespace ModelBinding.Contollers
@@ -42,8 +43,9 @@ namespace ModelBinding.Contollers
         }
 
         [Route("user")]
-        public IActionResult User(User usr)
+        public IActionResult User(User usr, [FromHeader(Name = "user-agent")] string useragent)
         {
+            var x = this.Request.Headers.ContentType;
             if (!ModelState.IsValid)
             {
                 return BadRequest(String.Join("\n",ModelState.Values.SelectMany(val => val.Errors).Select(msg => msg.ErrorMessage).ToList()));
@@ -52,6 +54,7 @@ namespace ModelBinding.Contollers
             {
                 return Json(usr);
             }
+            return Content(useragent);
         }
 
     }
