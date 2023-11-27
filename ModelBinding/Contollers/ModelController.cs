@@ -43,7 +43,7 @@ namespace ModelBinding.Contollers
         }
 
         [Route("user")]
-        public IActionResult User(User usr, [FromHeader(Name = "user-agent")] string useragent)
+        public IActionResult User([FromBody]User usr, [FromHeader(Name = "user-agent")] string useragent)
         {
             var x = this.Request.Headers.ContentType;
             if (!ModelState.IsValid)
@@ -54,7 +54,6 @@ namespace ModelBinding.Contollers
             {
                 return Json(usr);
             }
-            return Content(useragent);
         }
 
     }
